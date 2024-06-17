@@ -7,6 +7,9 @@ return {
       colorscheme = "catppuccin", -- default colorscheme
     },
   },
+  {
+    "rebelot/kanagawa.nvim",
+  },
   -- catppuccin
   {
     "catppuccin/nvim",

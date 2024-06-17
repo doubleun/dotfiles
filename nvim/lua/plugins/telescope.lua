@@ -43,8 +43,7 @@ return {
     { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Find Files (git-files)" },
     { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
     { "<leader>fR", LazyVim.pick("oldfiles", { cwd = vim.uv.cwd() }), desc = "Recent (cwd)" },
-    { "<leader>fA", LazyVim.pick("live_grep", { cwd = vim.uv.cwd() }), desc = "Grep (cwd)" },
-    { "<leader>fh", "<cmd>Telescope harpoon marks<CR>", desc = "Show harpoon marks" },
+    { "<leader>fa", "<cmd>Telescope harpoon marks<CR>", desc = "Show harpoon marks" },
     -- git
     { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "Commits" },
     { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Ctatus" },
@@ -106,7 +105,12 @@ return {
     local find_files_with_hidden = function()
       local action_state = require("telescope.actions.state")
       local line = action_state.get_current_line()
-      LazyVim.pick("find_files", { hidden = true, default_text = line })()
+      LazyVim.pick("find_files", {
+        hidden = true,
+        no_ignore = true,
+        file_ignore_patterns = { "node_modules", ".git", ".next" },
+        default_text = line,
+      })()
     end
 
     return {

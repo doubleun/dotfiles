@@ -1,6 +1,4 @@
-import = [
-  "~/.config/alacritty/catppuccin-macchiato.toml"
-]
+import = ["~/.config/alacritty/catppuccin-macchiato.toml"]
 
 [env]
 TERM = "xterm-256color"
@@ -17,13 +15,16 @@ blur = true
 option_as_alt = "Both"
 
 [font]
-normal.family = "MesloLGS Nerd Font Mono"
+# normal.family = "MesloLGS Nerd Font Mono"
+normal.family = "JetBrainsMono Nerd Font"
 
-size = 12
+size = 11
 
 [keyboard]
 bindings = [
   { key = "Right", mods = "Alt", chars = "\u001BF" },
-  { key = "Left",  mods = "Alt", chars = "\u001BB" },
-  { key =  "K", mods = "Command", chars = "clear -x\n"}
+  { key = "Left", mods = "Alt", chars = "\u001BB" },
+  { key = "K", mods = "Command", chars = "clear -x\n" },
+  # work around to make <C-Tab> works in nvim -> https://github.com/alacritty/alacritty/issues/4451
+  { key = "Tab", mods = "Control", chars = "\u001b[27;5;9~" },
 ]

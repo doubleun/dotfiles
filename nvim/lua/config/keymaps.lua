@@ -4,12 +4,11 @@
 
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlight" })
 
-vim.keymap.set("n", "<M-Up>", ":m -2<CR>", { desc = "Alt+Up move line above" }) -- move line up
-vim.keymap.set("n", "<M-Down>", ":m +1<CR>", { desc = "Alt-Down move line below" }) -- move line up
-
 -- tabs (buffer)
-vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
+vim.keymap.set("n", "<C-Tab>", "<cmd>bnext<cr>", { desc = "next buffer" })
+-- vim.keymap.set("n", "<C-S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
+
+-- vim.keymap.set("n", "<M-Esc>", require("cmp").mapping.complete(), { desc = "next buffer" })
 
 -- oil.nvim
 -- vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
