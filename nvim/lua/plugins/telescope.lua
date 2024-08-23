@@ -25,6 +25,38 @@ return {
         end)
       end,
     },
+    -- Live Grep with arguments
+    {
+      "nvim-telescope/telescope-live-grep-args.nvim",
+      event = "VeryLazy",
+      opts = function(_, opts)
+        local lga_actions = require("telescope-live-grep-args.actions")
+        opts.extensions = {
+          live_grep_args = {
+            auto_quoting = true, -- enable/disable auto-quoting
+            -- define mappings, e.g.
+            mappings = { -- extend mappings
+              i = {
+                ["<C-q>"] = lga_actions.quote_prompt(),
+                ["<C-a>"] = lga_actions.quote_prompt({ postfix = " --hidden --no-ignore " }),
+                ["<C-g>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+                -- freeze the current list and start a fuzzy search in the frozen list
+                ["<C-space>"] = lga_actions.to_fuzzy_refine,
+              },
+            },
+            -- ... also accepts theme settings, for example:
+            -- theme = "dropdown", -- use dropdown theme
+            -- theme = { }, -- use own theme spec
+            -- layout_config = { mirror=true }, -- mirror preview pane
+          },
+        }
+      end,
+      config = function(_, opts)
+        local tele = require("telescope")
+        tele.setup(opts)
+        tele.load_extension("live_grep_args")
+      end,
+    },
   },
   keys = {
     {
@@ -32,14 +64,20 @@ return {
       "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
       desc = "Cwitch Buffer",
     },
-    { "<leader>/", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+    { "<leader>/", ":Telescope live_grep_args<CR>", desc = "Live Grep" },
+    -- { "<leader>/", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
+    -- {
+    --   "<leader>/",
+    --   "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+    --   desc = "Grep Args (root dir)",
+    -- },
     { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
     { "<leader><space>", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
     -- find
     { "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
     { "<leader>fc", LazyVim.pick.config_files(), desc = "Find Config File" },
-    { "<leader>ff", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
-    { "<leader>fF", LazyVim.pick("files", { cwd = false }), desc = "Find Files (cwd)" },
+    { "<leader>ff", LazyVim.pick("auto"), desc = "Find Files (Root Dir)" },
+    { "<leader>fF", LazyVim.pick("auto", { root = false }), desc = "Find Files (cwd)" },
     { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Find Files (git-files)" },
     { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
     { "<leader>fR", LazyVim.pick("oldfiles", { cwd = vim.uv.cwd() }), desc = "Recent (cwd)" },
@@ -56,9 +94,9 @@ return {
     { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document Diagnostics" },
     { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace Diagnostics" },
     { "<leader>sg", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
-    { "<leader>sG", LazyVim.pick("live_grep", { cwd = false }), desc = "Grep (cwd)" },
+    { "<leader>sG", LazyVim.pick("live_grep", { root = false }), desc = "Grep (cwd)" },
     { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
-    { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Cearch Highlight Groups" },
+    { "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },
     { "<leader>sj", "<cmd>Telescope jumplist<cr>", desc = "Jumplist" },
     { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
     { "<leader>sl", "<cmd>Telescope loclist<cr>", desc = "Location List" },
@@ -68,27 +106,27 @@ return {
     { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
     { "<leader>sq", "<cmd>Telescope quickfix<cr>", desc = "Quickfix List" },
     { "<leader>sw", LazyVim.pick("grep_string", { word_match = "-w" }), desc = "Word (Root Dir)" },
-    { "<leader>sW", LazyVim.pick("grep_string", { cwd = false, word_match = "-w" }), desc = "Word (cwd)" },
-    { "<leader>sw", LazyVim.pick("grep_string"), mode = "v", desc = "Celection (Root Dir)" },
-    { "<leader>sW", LazyVim.pick("grep_string", { cwd = false }), mode = "v", desc = "Celection (cwd)" },
+    { "<leader>sW", LazyVim.pick("grep_string", { root = false, word_match = "-w" }), desc = "Word (cwd)" },
+    { "<leader>sw", LazyVim.pick("grep_string"), mode = "v", desc = "Selection (Root Dir)" },
+    { "<leader>sW", LazyVim.pick("grep_string", { root = false }), mode = "v", desc = "Selection (cwd)" },
     { "<leader>uC", LazyVim.pick("colorscheme", { enable_preview = true }), desc = "Colorscheme with Preview" },
     {
       "<leader>ss",
       function()
         require("telescope.builtin").lsp_document_symbols({
-          symbols = require("lazyvim.config").get_kind_filter(),
+          symbols = LazyVim.config.get_kind_filter(),
         })
       end,
-      desc = "Goto Cymbol",
+      desc = "Goto Symbol",
     },
     {
-      "<leader>sC",
+      "<leader>sS",
       function()
         require("telescope.builtin").lsp_dynamic_workspace_symbols({
-          symbols = require("lazyvim.config").get_kind_filter(),
+          symbols = LazyVim.config.get_kind_filter(),
         })
       end,
-      desc = "Goto Cymbol (Workspace)",
+      desc = "Goto Symbol (Workspace)",
     },
   },
   opts = function()

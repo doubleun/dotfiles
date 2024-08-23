@@ -8,7 +8,8 @@ vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlight"
 vim.keymap.set("n", "<C-Tab>", "<cmd>bnext<cr>", { desc = "next buffer" })
 -- vim.keymap.set("n", "<C-S-Tab>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 
--- vim.keymap.set("n", "<M-Esc>", require("cmp").mapping.complete(), { desc = "next buffer" })
+-- lsp
+vim.keymap.set("n", "<leader>cL", "<cmd>LspRestart<cr>", { desc = "Restart LSP" })
 
--- oil.nvim
--- vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+-- quickfix list
+vim.keymap.set("n", "<leader>xcq", "<cmd>call setqflist([])<cr>", { desc = "Clear quickfix list" })
