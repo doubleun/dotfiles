@@ -16,7 +16,10 @@
       // split
       "space |": "pane::SplitRight",
       "space -": "pane::SplitDown",
-      "ctrl-h": "project_panel::ToggleFocus"
+      "ctrl-h": "project_panel::ToggleFocus",
+      // move between buffers
+      "shift-h": "pane::ActivatePrevItem",
+      "shift-l": "pane::ActivateNextItem"
     }
   },
   {
