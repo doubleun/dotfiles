@@ -1,13 +1,16 @@
 return {
   "nvim-telescope/telescope.nvim",
   cmd = "Telescope",
+  enabled = function()
+    return LazyVim.pick.want() == "telescope"
+  end,
   version = false, -- telescope did only one release, so use HEAD for now
   dependencies = {
     {
       "nvim-telescope/telescope-fzf-native.nvim",
-      -- build = have_make and "make"
-      -- or "cmake -C. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-      -- enabled = have_make or have_cmake,
+      build = have_make and "make"
+        or "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+      enabled = have_make or have_cmake,
       config = function(plugin)
         LazyVim.on_load("telescope.nvim", function()
           local ok, err = pcall(require("telescope").load_extension, "fzf")
@@ -62,7 +65,7 @@ return {
     {
       "<leader>,",
       "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
-      desc = "Cwitch Buffer",
+      desc = "Switch Buffer",
     },
     { "<leader>/", ":Telescope live_grep_args<CR>", desc = "Live Grep" },
     -- { "<leader>/", LazyVim.pick("live_grep"), desc = "Grep (Root Dir)" },
@@ -72,19 +75,57 @@ return {
     --   desc = "Grep Args (root dir)",
     -- },
     { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-    { "<leader><space>", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
+    -- NOTE: change to find ALL files, see below
+    -- { "<leader><space>", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
+
     -- find
     { "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+    { "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
     { "<leader>fc", LazyVim.pick.config_files(), desc = "Find Config File" },
-    { "<leader>ff", LazyVim.pick("auto"), desc = "Find Files (Root Dir)" },
-    { "<leader>fF", LazyVim.pick("auto", { root = false }), desc = "Find Files (cwd)" },
+    { "<leader>ff", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
+    { "<leader>fF", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
     { "<leader>fg", "<cmd>Telescope git_files<cr>", desc = "Find Files (git-files)" },
     { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
     { "<leader>fR", LazyVim.pick("oldfiles", { cwd = vim.uv.cwd() }), desc = "Recent (cwd)" },
-    { "<leader>fa", "<cmd>Telescope harpoon marks<CR>", desc = "Show harpoon marks" },
+    {
+      "<leader><space>",
+      function()
+        require("telescope.builtin").find_files({
+          find_command = {
+            "rg",
+            "--files",
+            "--hidden",
+            "--no-ignore",
+            "--glob",
+            "!**/.git/*",
+            "--glob",
+            "!**/node_modules/*",
+          },
+          prompt_title = "Find All Files (Excluding node_modules)",
+        })
+      end,
+      desc = "Find All Files (Excluding node_modules)",
+    },
+    -- {
+    --   "<leader>fA",
+    --   "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+    --   desc = "Find Files (All files)",
+    -- },
+    {
+      "<leader>fe",
+      function()
+        require("telescope.builtin").find_files({
+          prompt_title = "Find .env Files",
+          cwd = vim.fn.getcwd(),
+          hidden = true,
+          find_command = { "rg", "--files", "--hidden", "-g", "**/.env*" },
+        })
+      end,
+      desc = "Find .env Files",
+    },
     -- git
     { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "Commits" },
-    { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Ctatus" },
+    { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "Status" },
     -- search
     { '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
     { "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
@@ -143,12 +184,21 @@ return {
     local find_files_with_hidden = function()
       local action_state = require("telescope.actions.state")
       local line = action_state.get_current_line()
-      LazyVim.pick("find_files", {
-        hidden = true,
-        no_ignore = true,
-        file_ignore_patterns = { "node_modules", ".git", ".next" },
-        default_text = line,
-      })()
+      LazyVim.pick("find_files", { hidden = true, default_text = line })()
+    end
+
+    local function find_command()
+      if 1 == vim.fn.executable("rg") then
+        return { "rg", "--files", "--color", "never", "-g", "!.git" }
+      elseif 1 == vim.fn.executable("fd") then
+        return { "fd", "--type", "f", "--color", "never", "-E", ".git" }
+      elseif 1 == vim.fn.executable("fdfind") then
+        return { "fdfind", "--type", "f", "--color", "never", "-E", ".git" }
+      elseif 1 == vim.fn.executable("find") and vim.fn.has("win32") == 0 then
+        return { "find", ".", "-type", "f" }
+      elseif 1 == vim.fn.executable("where") then
+        return { "where", "/r", ".", "*" }
+      end
     end
 
     return {
@@ -182,10 +232,20 @@ return {
             ["<C-j>"] = actions.move_selection_next, -- move to next result
             ["<C-p>"] = actions.cycle_history_next,
             ["<C-n>"] = actions.cycle_history_prev,
+            ["<C-Down>"] = actions.cycle_history_next,
+            ["<C-Up>"] = actions.cycle_history_prev,
+            ["<C-f>"] = actions.preview_scrolling_down,
+            ["<C-b>"] = actions.preview_scrolling_up,
           },
           n = {
             ["q"] = actions.close,
           },
+        },
+      },
+      pickers = {
+        find_files = {
+          find_command = find_command,
+          hidden = true,
         },
       },
     }
