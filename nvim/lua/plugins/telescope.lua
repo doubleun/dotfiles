@@ -112,7 +112,7 @@ return {
     --   desc = "Find Files (All files)",
     -- },
     {
-      "<leader>fe",
+      "<leader>fC",
       function()
         require("telescope.builtin").find_files({
           prompt_title = "Find .env Files",
