@@ -21,9 +21,29 @@ config.keys = {
 	-- Turn off the default CMD-m Hide action, allowing CMD-m to
 	-- be potentially recognized and handled by the tab
 	{
-		key = "k",
+		key = "K",
 		mods = "CMD",
-		action = act.ClearScrollback("ScrollbackAndViewport"),
+		action = act.Multiple({
+			act.ClearScrollback("ScrollbackAndViewport"),
+			act.SendKey({ key = "L", mods = "CTRL" }),
+		}),
+	},
+	-- clear tmux terminal history
+	{
+		key = "k",
+		mods = "CMD", -- Use 'CMD' for Command key on macOS
+		action = wezterm.action.SpawnCommandInNewWindow({
+			args = {
+				"/opt/homebrew/bin/tmux",
+				"send-keys",
+				"-R",
+				";",
+				"send-keys",
+				"C-l",
+				";",
+				"clear-history",
+			},
+		}),
 	},
 	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
 	{ key = "LeftArrow", mods = "OPT", action = wezterm.action({ SendString = "\x1bb" }) },
