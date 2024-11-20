@@ -85,10 +85,6 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# nvm
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -110,6 +106,17 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# # FLUTTER (use fvm instead)
+# export PATH=$HOME/flutter/bin:$PATH
+
+# Android config
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/emulator
+export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jbr/Contents/Home
 
 # GOLANG
 export GOPATH=$HOME/go
@@ -217,3 +224,17 @@ if [ -f '/Users/doubleun/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/double
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/doubleun/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/doubleun/google-cloud-sdk/completion.zsh.inc'; fi
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/doubleun/.dart-cli-completion/zsh-config.zsh ]] && . /Users/doubleun/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
