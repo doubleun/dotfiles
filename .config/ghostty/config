@@ -1,0 +1,12 @@
+font-family = "MesloLGS Nerd Font Mono"
+font-size = 12
+
+# Make `Opt` key works on MacOS
+macos-option-as-alt = true
+
+# Styling
+cursor-style = block
+macos-titlebar-style = hidden
+
+theme = catppuccin-mocha
+
