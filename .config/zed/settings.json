@@ -18,7 +18,7 @@
   "relative_line_numbers": true,
   "theme": "Catppuccin Mocha",
   "ui_font_size": 12,
-  "buffer_font_size": 11,
+  "buffer_font_size": 11.0,
   "ui_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_family": "MesloLGL Nerd Font",
   "formatter": "language_server",

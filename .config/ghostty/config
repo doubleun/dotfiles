@@ -1,12 +1,31 @@
 font-family = "MesloLGS Nerd Font Mono"
+# font-family = "SFMono Nerd Font"
 font-size = 12
 
 # Make `Opt` key works on MacOS
 macos-option-as-alt = true
 
 # Styling
+# cursor-color = #ff5757
+# cursor-opacity = 0.5
+background-opacity = 0.75
+background-blur-radius = 12
 cursor-style = block
 macos-titlebar-style = hidden
 
+# theme = GruvBoxDarkHard
 theme = catppuccin-mocha
 
+# Window management
+# keybind = unconsumed:ctrl+space>shift+\=new_split:right
+# keybind = unconsumed:ctrl+space>-=new_split:down
+# keybind = unconsumed:ctrl+space>z=toggle_split_zoom
+# keybind = unconsumed:ctrl+space>x=close_surface
+keybind = unconsumed:ctrl+space>grave_accent=toggle_quick_terminal
+# keybind = unconsumed:ctrl+h=goto_split:left
+# keybind = unconsumed:ctrl+l=goto_split:right
+# keybind = unconsumed:ctrl+j=goto_split:bottom
+# keybind = unconsumed:ctrl+k=goto_split:top
+
+# Make clear screen works on tmux (but this will make cmd+k not work in ghostty)
+keybind = cmd+k=text:\x1b\x1d

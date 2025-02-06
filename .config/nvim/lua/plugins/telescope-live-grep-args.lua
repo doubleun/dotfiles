@@ -1,3 +1,4 @@
+return {}
 -- deprecated to fzf_lua
 -- return {
 --   "nvim-telescope/telescope-live-grep-args.nvim",
