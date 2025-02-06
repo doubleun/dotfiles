@@ -5,11 +5,11 @@ return {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "catppuccin", -- default colorscheme
+      -- colorscheme = "gruvbox-material",
     },
   },
-  {
-    "rebelot/kanagawa.nvim",
-  },
+  { "sainnhe/gruvbox-material" },
+  -- { "ellisonleao/gruvbox.nvim" },
   -- oxocarbon
   { "nyoom-engineering/oxocarbon.nvim" },
   -- -- zenbones.nvim
@@ -24,13 +24,7 @@ return {
   --   opts = {},
   -- },
   -- tokyo
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
-  },
-  -- catppuccin
+  -- catppucin
   {
     "catppuccin/nvim",
     lazy = false,
