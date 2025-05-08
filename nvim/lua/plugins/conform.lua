@@ -8,11 +8,16 @@ return {
       lua = { "stylua" },
       fish = { "fish_indent" },
       sh = { "shfmt" },
-      -- if project is `skinx-webiste` then disable prettier
-      javascript = project_name == "skinx-website" and { "injected" } or { "prettierd" },
-      typescript = project_name == "skinx-website" and { "injected" } or { "prettierd" },
-      javascriptreact = project_name == "skinx-website" and { "injected" } or { "prettierd" },
-      typescriptreact = project_name == "skinx-website" and { "injected" } or { "prettierd" },
+      javascript = { "eslint_d", "prettier" },
+      typescript = { "eslint_d", "prettier" },
+      javascriptreact = { "eslint_d", "prettier" },
+      typescriptreact = { "eslint_d", "prettier" },
+
+      -- -- if project is `skinx-webiste` then disable prettier
+      -- javascript = project_name == "skinx-website" and { "injected" } or { "prettier" },
+      -- typescript = project_name == "skinx-website" and { "injected" } or { "prettier" },
+      -- javascriptreact = project_name == "skinx-website" and { "injected" } or { "prettier" },
+      -- typescriptreact = project_name == "skinx-website" and { "injected" } or { "prettier" },
     },
     -- TODO: SEEMS TO NOT BE NEEDED
     -- formatters = {

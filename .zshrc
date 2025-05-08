@@ -124,6 +124,8 @@ export GOROOT=/usr/local/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOPATH
 export PATH=$PATH:$GOROOT/bin
+# add Go binaries to PATH
+export PATH=$PATH:$GOBIN
 
 # Brew
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -211,6 +213,8 @@ alias lt="eza --tree --level=2"
 # Remove "zi" alias for default zoxide alias to work
 alias zi='__zoxide_zi'
 alias c='clear'
+alias zed="open -a /Applications/Zed.app -n"
+alias nv="nvim"
 
 # Shell integrations
 eval "$(fzf --zsh)" # fzf
@@ -218,12 +222,6 @@ eval "$(zoxide init --cmd cd zsh)" # zoxide
 
 # bun completions
 [ -s "/Users/skinx/.bun/_bun" ] && source "/Users/skinx/.bun/_bun"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/doubleun/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/doubleun/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/doubleun/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/doubleun/google-cloud-sdk/completion.zsh.inc'; fi
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -238,3 +236,35 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [[ -f /Users/doubleun/.dart-cli-completion/zsh-config.zsh ]] && . /Users/doubleun/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/wachi_skinx/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/wachi_skinx/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/wachi_skinx/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/wachi_skinx/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# YAZI
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+# Link homebrew for libusb https://stackoverflow.com/questions/70729330/python-on-m1-mbp-trying-to-connect-to-usb-devices-nobackenderror-no-backend-a
+# Mainly for connecting switch using dbibackend
+export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# sets default editor
+export export EDITOR=nvim
+
+# Mysql
+export PATH="/opt/homebrew/opt/mysql/bin:$PATH"

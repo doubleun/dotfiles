@@ -3,5 +3,5 @@
   "language": "en",
   "dictionaries": [],
   "dictionaryDefinitions": [],
-  "words": ["neovim", "nvim"]
+  "words": ["neovim", "nvim", "heapify"]
 }

@@ -1,3 +1,5 @@
+-- NOTE: uses `--` to dynamic grep
+-- EX: `\.use\( -- **/backoffice*/**` to grep only under "backoffice*"
 return {
   "ibhagwan/fzf-lua",
   keys = {
