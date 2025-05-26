@@ -1,5 +1,5 @@
 --- Get project name from current working directory
-local project_name = vim.fn.fnamemodify(vim.loop.cwd(), ":t")
+-- local project_name = vim.fn.fnamemodify(vim.loop.cwd(), ":t")
 
 return {
   "stevearc/conform.nvim",
@@ -8,10 +8,10 @@ return {
       lua = { "stylua" },
       fish = { "fish_indent" },
       sh = { "shfmt" },
-      javascript = { "eslint_d", "prettier" },
-      typescript = { "eslint_d", "prettier" },
-      javascriptreact = { "eslint_d", "prettier" },
-      typescriptreact = { "eslint_d", "prettier" },
+      -- javascript = { "eslint", "prettier" },
+      -- typescript = { "eslint", "prettier" },
+      -- javascriptreact = { "eslint", "prettier" },
+      -- typescriptreact = { "eslint", "prettier" },
 
       -- -- if project is `skinx-webiste` then disable prettier
       -- javascript = project_name == "skinx-website" and { "injected" } or { "prettier" },

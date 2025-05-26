@@ -5,7 +5,7 @@ vim.o.guifont = "Inconsolata Nerd Font Mono:h10:#e-subpixelantialias"
 vim.opt.winbar = "%=%m %f"
 
 -- vim.g.lazyvim_eslint_auto_format = true
-vim.g.autoformat = true
+-- vim.g.autoformat = true
 
 -- vim.diagnostic.config({ virtual_lines = { current_line = true } })
 

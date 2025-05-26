@@ -1,4 +1,5 @@
-return {
-  "mg979/vim-visual-multi",
-  event = "VeryLazy",
-}
+return {}
+-- return {
+--   "mg979/vim-visual-multi",
+--   event = "VeryLazy",
+-- }
